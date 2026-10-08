@@ -1,0 +1,547 @@
+from manim import *
+
+# ============================================================
+# DAILY INTEGRAL #2
+#
+# Integral:
+# ∫₀^(π/6) cos(x) / (2 + sin(x)) dx
+#
+# Output:
+# 1920 × 1080
+# 16:9
+# 60 FPS
+# ============================================================
+
+config.pixel_width = 1920
+config.pixel_height = 1080
+config.frame_rate = 60
+
+
+class DailyIntegral2(Scene):
+
+    def construct(self):
+
+        # ====================================================
+        # COLOURS
+        # ====================================================
+
+        COS_COLOR = BLUE
+        U_COLOR = GREEN
+        LIMIT_COLOR = YELLOW
+        LOG_COLOR = PURPLE
+        RESULT_COLOR = GOLD
+
+        # ====================================================
+        # CLEAR SCREEN
+        # ====================================================
+
+        def clear_screen():
+            objects = list(self.mobjects)
+
+            if objects:
+                self.play(
+                    *[FadeOut(obj) for obj in objects],
+                    run_time=0.6
+                )
+
+        # ====================================================
+        # SCENE 1: TITLE
+        # ====================================================
+
+        title = Text(
+            "Daily Integral #2",
+            font_size=54
+        )
+
+        subtitle = Text(
+            "Easy Integral",
+            font_size=32
+        ).next_to(
+            title,
+            DOWN,
+            buff=0.15
+        )
+
+        self.play(Write(title))
+        self.play(FadeIn(subtitle))
+        self.wait(2)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 2: PROBLEM
+        # ====================================================
+
+        heading = Text(
+            "Evaluate",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        integral = MathTex(
+            r"\int_{0}^{\pi/6}"
+            r"\frac{\cos(x)}{2+\sin(x)}\,dx",
+            font_size=72
+        )
+
+        self.play(Write(heading))
+        self.play(Write(integral))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 3: CHOOSE SUBSTITUTION
+        # ====================================================
+
+        heading = Text(
+            "Step 1: Choose a substitution",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        original = MathTex(
+            r"\int_{0}^{\pi/6}"
+            r"\frac{\cos(x)}{2+\sin(x)}\,dx",
+            font_size=60
+        )
+
+        self.play(Write(heading))
+        self.play(Write(original))
+        self.wait(1)
+
+        trig_term = MathTex(
+            r"2+\sin(x)",
+            color=COS_COLOR,
+            font_size=60
+        )
+
+        arrow = MathTex(
+            r"\Longrightarrow",
+            font_size=50
+        )
+
+        u_term = MathTex(
+            r"u=2+\sin(x)",
+            color=U_COLOR,
+            font_size=60
+        )
+
+        substitution_row = VGroup(
+            trig_term,
+            arrow,
+            u_term
+        ).arrange(
+            RIGHT,
+            buff=0.45
+        )
+
+        substitution_row.next_to(
+            original,
+            DOWN,
+            buff=0.8
+        )
+
+        self.play(
+            Write(substitution_row)
+        )
+
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 4: FIND du
+        # ====================================================
+
+        heading = Text(
+            "Step 2: Find du",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        equation1 = MathTex(
+            r"u=2+\sin(x)",
+            color=U_COLOR,
+            font_size=64
+        )
+
+        equation2 = MathTex(
+            r"\frac{du}{dx}=\cos(x)",
+            font_size=60
+        )
+
+        equation3 = MathTex(
+            r"du=\cos(x)\,dx",
+            color=COS_COLOR,
+            font_size=64
+        )
+
+        equations = VGroup(
+            equation1,
+            equation2,
+            equation3
+        ).arrange(
+            DOWN,
+            buff=0.55
+        )
+
+        self.play(Write(heading))
+        self.play(Write(equation1))
+        self.wait(1)
+
+        self.play(Write(equation2))
+        self.wait(1)
+
+        self.play(Write(equation3))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 5: REWRITE THE INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "Step 3: Rewrite the integral",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        equation1 = MathTex(
+            r"\text{Numerator: } \cos(x)\,dx = du",
+            font_size=56
+        )
+
+        equation2 = MathTex(
+            r"\text{Denominator: } 2+\sin(x) = u",
+            color=U_COLOR,
+            font_size=56
+        )
+
+        equation3 = MathTex(
+            r"\frac{\cos(x)\,dx}{2+\sin(x)} = \frac{du}{u}",
+            color=LOG_COLOR,
+            font_size=64
+        )
+
+        equations = VGroup(
+            equation1,
+            equation2,
+            equation3
+        ).arrange(
+            DOWN,
+            buff=0.55
+        )
+
+        self.play(Write(heading))
+        self.play(Write(equation1))
+        self.wait(1)
+
+        self.play(Write(equation2))
+        self.wait(1)
+
+        self.play(Write(equation3))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 6: LOWER LIMIT
+        # ====================================================
+
+        heading = Text(
+            "Step 4: Change the limits",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        lower = MathTex(
+            r"x=0",
+            font_size=64
+        )
+
+        arrow = MathTex(
+            r"\Longrightarrow",
+            font_size=55
+        )
+
+        lower_u = MathTex(
+            r"u=2+\sin(0)=2",
+            color=LIMIT_COLOR,
+            font_size=64
+        )
+
+        row = VGroup(
+            lower,
+            arrow,
+            lower_u
+        ).arrange(
+            RIGHT,
+            buff=0.45
+        )
+
+        self.play(Write(heading))
+        self.play(Write(row))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 7: UPPER LIMIT
+        # ====================================================
+
+        heading = Text(
+            "Change the upper limit",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        upper = MathTex(
+            r"x=\pi/6",
+            font_size=64
+        )
+
+        arrow = MathTex(
+            r"\Longrightarrow",
+            font_size=55
+        )
+
+        upper_u = MathTex(
+            r"u=2+\sin(\pi/6)=2+\frac{1}{2}=\frac{5}{2}",
+            color=LIMIT_COLOR,
+            font_size=60
+        )
+
+        row = VGroup(
+            upper,
+            arrow,
+            upper_u
+        ).arrange(
+            RIGHT,
+            buff=0.45
+        )
+
+        self.play(Write(heading))
+        self.play(Write(row))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 8: NEW INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "The integral becomes",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        new_integral = MathTex(
+            r"\int_{2}^{5/2}"
+            r"\frac{1}{u}\,du",
+            font_size=76
+        )
+
+        self.play(Write(heading))
+        self.play(Write(new_integral))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 9: STANDARD INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "Use the standard integral",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        standard = MathTex(
+            r"\int\frac{1}{u}\,du"
+            r"=\ln|u|+C",
+            font_size=60
+        )
+
+        self.play(Write(heading))
+        self.play(Write(standard))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 10: APPLY THE LIMITS
+        # ====================================================
+
+        heading = Text(
+            "Apply the limits",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        self.play(Write(heading))
+
+        bracket_form = MathTex(
+            r"\left[\ln|u|\right]_{2}^{5/2}",
+            font_size=72
+        )
+
+        bracket_form.move_to(ORIGIN)
+
+        self.play(
+            Write(bracket_form),
+            run_time=1.2
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeOut(bracket_form),
+            run_time=0.7
+        )
+
+        self.remove(bracket_form)
+
+        self.wait(0.5)
+
+        expanded_form = MathTex(
+            r"\ln\left(\frac{5}{2}\right)-\ln(2)",
+            font_size=72
+        )
+
+        expanded_form.move_to(ORIGIN)
+
+        self.play(
+            Write(expanded_form),
+            run_time=1.2
+        )
+
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 11: NUMERICAL VALUES
+        # ====================================================
+
+        heading = Text(
+            "Evaluate numerically",
+            font_size=42
+        ).to_edge(
+            UP,
+            buff=0.7
+        )
+
+        value1 = MathTex(
+            r"\ln(5/2)\approx 0.9162907319",
+            font_size=56
+        )
+
+        value2 = MathTex(
+            r"\ln(2)\approx 0.6931471806",
+            font_size=56
+        )
+
+        value3 = MathTex(
+            r"0.9162907319-0.6931471806",
+            font_size=56
+        )
+
+        values = VGroup(
+            value1,
+            value2,
+            value3
+        ).arrange(
+            DOWN,
+            buff=0.5
+        )
+
+        self.play(Write(heading))
+        self.play(Write(value1))
+        self.wait(1)
+
+        self.play(Write(value2))
+        self.wait(1)
+
+        self.play(Write(value3))
+        self.wait(3)
+
+        clear_screen()
+
+        # ====================================================
+        # SCENE 12: FINAL ANSWER
+        # ====================================================
+
+        heading = Text(
+            "Final Answer",
+            font_size=46
+        ).to_edge(
+            UP,
+            buff=0.8
+        )
+
+        answer = MathTex(
+            r"\boxed{\ln\left(\frac{5}{4}\right)}",
+            font_size=82,
+            color=RESULT_COLOR
+        )
+
+        answer.move_to(
+            ORIGIN + UP * 0.5
+        )
+
+        numerical = MathTex(
+            r"\approx 0.2231435513",
+            font_size=44
+        )
+
+        numerical.next_to(
+            answer,
+            DOWN,
+            buff=0.75
+        )
+
+        self.play(
+            Write(heading)
+        )
+
+        self.play(
+            Write(answer),
+            run_time=1.5
+        )
+
+        self.play(
+            Flash(
+                answer,
+                color=RESULT_COLOR,
+                flash_radius=1.2
+            )
+        )
+
+        self.play(
+            FadeIn(numerical),
+            run_time=0.8
+        )
+
+        self.wait(4)
