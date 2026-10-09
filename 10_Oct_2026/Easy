@@ -1,0 +1,527 @@
+from manim import *
+import numpy as np
+
+# ============================================================
+# DAILY INTEGRAL #2 — EASY
+# ============================================================
+
+config.pixel_width = 1920
+config.pixel_height = 1080
+config.frame_rate = 60
+
+# ------------------------------------------------------------
+# COLOR PALETTE
+# ------------------------------------------------------------
+
+QUESTION_COLOR = WHITE
+VARIABLE_COLOR = BLUE
+POSITIVE_COLOR = GREEN
+NEGATIVE_COLOR = RED
+LIMIT_COLOR = PURPLE
+RESULT_COLOR = YELLOW
+IDENTITY_COLOR = ORANGE
+
+
+class DailyIntegral2(Scene):
+
+    def construct(self):
+
+        # ====================================================
+        # SCENE 1 — PRESENT THE PROBLEM
+        # ====================================================
+
+        heading = Text(
+            "Daily Integral #2",
+            font_size=46
+        ).to_edge(UP, buff=1.0)
+
+        subtitle = Text(
+            "Easy | Trigonometric Symmetry",
+            font_size=28,
+            color=GREEN
+        ).next_to(
+            heading, DOWN, buff=0.4
+        )
+
+        problem = MathTex(
+            r"I=\int_0^{\pi/2}"
+            r"\frac{\cos x}{\sec x+\csc x}\,dx",
+            font_size=68
+        ).move_to(ORIGIN)
+
+        self.play(Write(heading))
+        self.play(FadeIn(subtitle))
+        self.play(Write(problem))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(subtitle),
+            FadeOut(problem)
+        )
+
+        # ====================================================
+        # SCENE 2 — USE TRIGONOMETRIC IDENTITIES
+        # ====================================================
+
+        heading = Text(
+            "Step 1: Rewrite sec x and csc x",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"\sec x=\frac{1}{\cos x}",
+            font_size=58,
+            color=VARIABLE_COLOR
+        )
+
+        eq2 = MathTex(
+            r"\csc x=\frac{1}{\sin x}",
+            font_size=58,
+            color=IDENTITY_COLOR
+        )
+
+        equations = VGroup(
+            eq1, eq2
+        ).arrange(
+            DOWN, buff=0.7
+        ).next_to(
+            heading, DOWN, buff=1.0
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(equations)
+        )
+
+        # ====================================================
+        # SCENE 3 — SIMPLIFY THE INTEGRAND
+        # ====================================================
+
+        heading = Text(
+            "Step 2: Simplify the integrand",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"\frac{\cos x}"
+            r"{\frac{1}{\cos x}+\frac{1}{\sin x}}",
+            font_size=58
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        eq2 = MathTex(
+            r"\frac{\sin x\cos^2x}"
+            r"{\sin x+\cos x}",
+            font_size=64,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+
+        self.play(
+            FadeOut(eq1)
+        )
+
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq2)
+        )
+
+        # ====================================================
+        # SCENE 4 — DEFINE THE COMPANION INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "Step 3: Use symmetry",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"I=\int_0^{\pi/2}"
+            r"\frac{\sin x\cos^2x}"
+            r"{\sin x+\cos x}\,dx",
+            font_size=54
+        )
+
+        eq2 = MathTex(
+            r"J=\int_0^{\pi/2}"
+            r"\frac{\sin^2x\cos x}"
+            r"{\sin x+\cos x}\,dx",
+            font_size=54,
+            color=VARIABLE_COLOR
+        )
+
+        equations = VGroup(
+            eq1, eq2
+        ).arrange(
+            DOWN, buff=0.8
+        ).next_to(
+            heading, DOWN, buff=1.0
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(equations)
+        )
+
+        # ====================================================
+        # SCENE 5 — SHOW I = J
+        # ====================================================
+
+        heading = Text(
+            "Step 4: Apply x → π/2 − x",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"x=\frac{\pi}{2}-t",
+            font_size=62,
+            color=LIMIT_COLOR
+        ).next_to(
+            heading, DOWN, buff=1.0
+        )
+
+        eq2 = MathTex(
+            r"\sin x=\cos t",
+            font_size=56
+        )
+
+        eq3 = MathTex(
+            r"\cos x=\sin t",
+            font_size=56
+        )
+
+        identities = VGroup(
+            eq2, eq3
+        ).arrange(
+            DOWN, buff=0.6
+        ).next_to(
+            eq1, DOWN, buff=0.8
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(Write(identities))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq1),
+            FadeOut(identities)
+        )
+
+        heading = Text(
+            "The two integrals are equal",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        equality = MathTex(
+            r"\boxed{I=J}",
+            font_size=82,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=1.0
+        )
+
+        self.play(Write(heading))
+        self.play(Write(equality))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(equality)
+        )
+
+        # ====================================================
+        # SCENE 6 — ADD THE INTEGRALS
+        # ====================================================
+
+        heading = Text(
+            "Step 5: Add I and J",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"I+J=\int_0^{\pi/2}"
+            r"\frac{\sin x\cos^2x+\sin^2x\cos x}"
+            r"{\sin x+\cos x}\,dx",
+            font_size=48
+        ).next_to(
+            heading, DOWN, buff=1.0
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(2)
+
+        self.play(
+            FadeOut(eq1)
+        )
+
+        eq2 = MathTex(
+            r"\sin x\cos^2x+\sin^2x\cos x",
+            font_size=56
+        ).next_to(
+            heading, DOWN, buff=1.0
+        )
+
+        eq3 = MathTex(
+            r"=\sin x\cos x(\sin x+\cos x)",
+            font_size=56,
+            color=IDENTITY_COLOR
+        ).next_to(
+            eq2, DOWN, buff=0.7
+        )
+
+        self.play(Write(eq2))
+        self.play(Write(eq3))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq2),
+            FadeOut(eq3)
+        )
+
+        # ====================================================
+        # SCENE 7 — CANCEL AND INTEGRATE
+        # ====================================================
+
+        heading = Text(
+            "Step 6: Cancel and integrate",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"I+J=\int_0^{\pi/2}\sin x\cos x\,dx",
+            font_size=58
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        eq2 = MathTex(
+            r"\sin x\cos x=\frac12\sin(2x)",
+            font_size=58,
+            color=IDENTITY_COLOR
+        ).next_to(
+            eq1, DOWN, buff=0.8
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(eq1),
+            FadeOut(eq2)
+        )
+
+        eq3 = MathTex(
+            r"I+J=\frac12\int_0^{\pi/2}\sin(2x)\,dx",
+            font_size=54
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        eq4 = MathTex(
+            r"I+J=\left[-\frac{\cos(2x)}{4}\right]_0^{\pi/2}",
+            font_size=52
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        self.play(Write(eq3))
+        self.wait(1.5)
+
+        self.play(
+            Transform(eq3, eq4)
+        )
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq3)
+        )
+
+        # ====================================================
+        # SCENE 8 — EVALUATE THE BOUNDS
+        # ====================================================
+
+        heading = Text(
+            "Step 7: Evaluate the bounds",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"I+J=-\frac{\cos\pi}{4}+\frac{\cos0}{4}",
+            font_size=58
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        eq2 = MathTex(
+            r"I+J=\frac14+\frac14",
+            font_size=62
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        eq3 = MathTex(
+            r"\boxed{I+J=\frac12}",
+            font_size=72,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+
+        self.play(
+            Transform(eq1, eq2)
+        )
+        self.wait(1.5)
+
+        self.play(
+            Transform(eq1, eq3)
+        )
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq1)
+        )
+
+        # ====================================================
+        # SCENE 9 — SOLVE FOR I
+        # ====================================================
+
+        heading = Text(
+            "Step 8: Solve for I",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        eq1 = MathTex(
+            r"I=J",
+            font_size=68,
+            color=VARIABLE_COLOR
+        )
+
+        eq2 = MathTex(
+            r"I+J=\frac12",
+            font_size=68
+        )
+
+        equations = VGroup(
+            eq1, eq2
+        ).arrange(
+            DOWN, buff=0.7
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(equations)
+        )
+
+        eq3 = MathTex(
+            r"2I=\frac12",
+            font_size=68
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        eq4 = MathTex(
+            r"I=\frac14",
+            font_size=76,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        self.play(Write(eq3))
+        self.wait(1.5)
+
+        self.play(
+            Transform(eq3, eq4)
+        )
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq3)
+        )
+
+        # ====================================================
+        # SCENE 10 — FINAL NUMERICAL ANSWER & FIREWORKS
+        # ====================================================
+
+        heading = Text(
+            "Daily Integral #2  — Final Answer",
+            font_size=42
+        ).to_edge(UP, buff=1.0)
+
+        result = MathTex(
+            r"\boxed{0.25}",
+            font_size=92,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=1.2
+        )
+
+        self.play(Write(heading))
+        self.play(
+            Write(result),
+            run_time=1.5
+        )
+        self.wait(0.5)
+
+        # ---- FIREWORKS CELEBRATION ----
+        # Primary flash on the result
+        self.play(
+            Flash(
+                result,
+                color=RESULT_COLOR,
+                flash_radius=2.5,
+                line_length=0.8,
+                num_lines=40
+            ),
+            run_time=1.5
+        )
+
+        # Secondary bursts around the screen for a festive look
+        self.play(
+            Flash(UP * 2.5 + LEFT * 4.5, color=BLUE, flash_radius=1.5, line_length=0.5, num_lines=25),
+            Flash(UP * 2.5 + RIGHT * 4.5, color=GREEN, flash_radius=1.5, line_length=0.5, num_lines=25),
+            Flash(DOWN * 2.5 + LEFT * 3.5, color=PURPLE, flash_radius=1.5, line_length=0.5, num_lines=25),
+            Flash(DOWN * 2.5 + RIGHT * 3.5, color=ORANGE, flash_radius=1.5, line_length=0.5, num_lines=25),
+            run_time=1.5
+        )
+
+        self.wait(3)
