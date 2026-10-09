@@ -1,0 +1,516 @@
+
+from manim import *
+
+# ============================================================
+# DAILY INTEGRAL #3 — MEDIUM
+# Nested absolute values with a cubic power
+# ============================================================
+
+config.pixel_width = 1920
+config.pixel_height = 1080
+config.frame_rate = 60
+
+# ------------------------------------------------------------
+# COLOR PALETTE
+# ------------------------------------------------------------
+
+QUESTION_COLOR = WHITE
+SYMMETRY_COLOR = BLUE
+PIECEWISE_COLOR = GREEN
+INTEGRAL_COLOR = PURPLE
+RESULT_COLOR = YELLOW
+HIGHLIGHT_COLOR = ORANGE
+
+HEADING_BUFF = 0.85
+CONTENT_BUFF = 0.8
+
+
+class DailyIntegral3(Scene):
+
+    def construct(self):
+
+        # ====================================================
+        # SCENE 1 — PRESENT THE PROBLEM
+        # ====================================================
+
+        heading = Text(
+            "Daily Integral #3",
+            font_size=46
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        subtitle = Text(
+            "Medium | Absolute Values",
+            font_size=28,
+            color=PIECEWISE_COLOR
+        ).next_to(heading, DOWN, buff=0.3)
+
+        problem = MathTex(
+            r"I=\int_{-6}^{6}"
+            r"\left|\left|\left||x|-1\right|-2\right|-3\right|^3"
+            r"\,dx",
+            font_size=62
+        ).move_to(ORIGIN)
+
+        self.play(Write(heading))
+        self.play(FadeIn(subtitle))
+        self.play(Write(problem))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(subtitle),
+            FadeOut(problem)
+        )
+
+        # ====================================================
+        # SCENE 2 — USE SYMMETRY
+        # ====================================================
+
+        heading = Text(
+            "Step 1: Use symmetry",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"f(-x)=f(x)",
+            font_size=62,
+            color=SYMMETRY_COLOR
+        )
+
+        explanation = Text(
+            "The integrand is an even function",
+            font_size=30
+        ).next_to(eq1, DOWN, buff=0.45)
+
+        eq2 = MathTex(
+            r"I=2\int_0^6"
+            r"\left|\left|\left|x-1\right|-2\right|-3\right|^3"
+            r"\,dx",
+            font_size=56
+        )
+
+        content = VGroup(
+            eq1, explanation, eq2
+        ).arrange(
+            DOWN, buff=0.5
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(FadeIn(explanation))
+        self.wait(1.5)
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(content)
+        )
+
+        # ====================================================
+        # SCENE 3 — FIND BREAKPOINTS
+        # ====================================================
+
+        heading = Text(
+            "Step 2: Find the breakpoints",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"|x|-1=0\quad\Rightarrow\quad x=1",
+            font_size=48
+        )
+
+        eq2 = MathTex(
+            r"\big||x|-1\big|-2=0"
+            r"\quad\Rightarrow\quad x=3",
+            font_size=48
+        )
+
+        eq3 = MathTex(
+            r"\left|\big||x|-1\big|-2\right|-3=0"
+            r"\quad\Rightarrow\quad x=6",
+            font_size=43
+        )
+
+        equations = VGroup(
+            eq1, eq2, eq3
+        ).arrange(
+            DOWN, buff=0.65
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+
+        for eq in equations:
+            self.play(Write(eq))
+            self.wait(0.8)
+
+        self.wait(1.5)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(equations)
+        )
+
+        # ====================================================
+        # SCENE 4 — PIECEWISE SIMPLIFICATION
+        # ====================================================
+
+        heading = Text(
+            "Step 3: Simplify on each interval",
+            font_size=40
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"0\leq x\leq1:",
+            r"\quad f(x)=2-x",
+            font_size=52,
+            color=PIECEWISE_COLOR
+        )
+
+        eq2 = MathTex(
+            r"1\leq x\leq3:",
+            r"\quad f(x)=x",
+            font_size=52,
+            color=PIECEWISE_COLOR
+        )
+
+        eq3 = MathTex(
+            r"3\leq x\leq6:",
+            r"\quad f(x)=6-x",
+            font_size=52,
+            color=PIECEWISE_COLOR
+        )
+
+        equations = VGroup(
+            eq1, eq2, eq3
+        ).arrange(
+            DOWN, buff=0.7, aligned_edge=LEFT
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+
+        for eq in equations:
+            self.play(Write(eq))
+            self.wait(0.8)
+
+        self.wait(1.5)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(equations)
+        )
+
+        # ====================================================
+        # SCENE 5 — SET UP THE INTEGRALS
+        # ====================================================
+
+        heading = Text(
+            "Step 4: Set up the integrals",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"I=2\left["
+            r"\int_0^1(2-x)^3\,dx"
+            r"+\int_1^3x^3\,dx"
+            r"+\int_3^6(6-x)^3\,dx"
+            r"\right]",
+            font_size=45
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(3)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq1)
+        )
+
+        # ====================================================
+        # SCENE 6 — FIRST INTEGRAL (FIXED)
+        # ====================================================
+
+        heading = Text(
+            "Step 5A: Evaluate the first integral",
+            font_size=40
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        self.play(Write(heading))
+
+        eq1 = MathTex(
+            r"I_1=\int_0^1(2-x)^3\,dx",
+            font_size=62
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        eq2 = MathTex(
+            r"I_1=\left[-\frac{(2-x)^4}{4}\right]_0^1",
+            font_size=54
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq2))
+        self.wait(1.5)
+        self.play(FadeOut(eq2))
+
+        eq3 = MathTex(
+            r"I_1=-\frac14-(-4)",
+            font_size=62
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq3))
+        self.wait(1.5)
+        self.play(FadeOut(eq3))
+
+        result1 = MathTex(
+            r"\boxed{I_1=\frac{15}{4}}",
+            font_size=72,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(result1))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(result1)
+        )
+
+        # ====================================================
+        # SCENE 7 — SECOND INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "Step 5B: Evaluate the second integral",
+            font_size=40
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"I_2=\int_1^3x^3\,dx",
+            font_size=58
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        eq2 = MathTex(
+            r"I_2=\left[\frac{x^4}{4}\right]_1^3",
+            font_size=54
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq2))
+        self.wait(1.5)
+        self.play(FadeOut(eq2))
+
+        eq3 = MathTex(
+            r"I_2=\frac{81-1}{4}=20",
+            font_size=64,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq3))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq3)
+        )
+
+        # ====================================================
+        # SCENE 8 — THIRD INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "Step 5C: Evaluate the third integral",
+            font_size=40
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"I_3=\int_3^6(6-x)^3\,dx",
+            font_size=58
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        eq2 = MathTex(
+            r"I_3=\left[-\frac{(6-x)^4}{4}\right]_3^6",
+            font_size=54
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq2))
+        self.wait(1.5)
+        self.play(FadeOut(eq2))
+
+        eq3 = MathTex(
+            r"I_3=\frac{81}{4}",
+            font_size=66,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq3))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq3)
+        )
+
+        # ====================================================
+        # SCENE 9 — COMBINE RESULTS
+        # ====================================================
+
+        heading = Text(
+            "Step 6: Combine the results",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        self.play(Write(heading))
+
+        eq1 = MathTex(
+            r"I=2\left(\frac{15}{4}+20+\frac{81}{4}\right)",
+            font_size=54
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(eq1))
+        self.wait(1.5)
+
+        eq2 = MathTex(
+            r"I=2\left(\frac{96}{4}+20\right)",
+            font_size=56
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Transform(eq1, eq2))
+        self.wait(1.5)
+
+        eq3 = MathTex(
+            r"I=2(24+20)",
+            font_size=62
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Transform(eq1, eq3))
+        self.wait(1.5)
+
+        eq4 = MathTex(
+            r"\boxed{I=88}",
+            font_size=78,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Transform(eq1, eq4))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq1)
+        )
+
+        # ====================================================
+        # SCENE 10 — FINAL ANSWER AND FIREWORKS
+        # ====================================================
+
+        heading = Text(
+            "Daily Integral #3 — Final Answer",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        result = MathTex(
+            r"\boxed{88}",
+            font_size=100,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(result), run_time=1.5)
+        self.wait(0.5)
+
+        self.play(
+            Flash(
+                result,
+                color=RESULT_COLOR,
+                flash_radius=2.5,
+                line_length=0.8,
+                num_lines=40
+            ),
+            run_time=1.5
+        )
+
+        self.play(
+            Flash(
+                UP * 2.5 + LEFT * 4.5,
+                color=BLUE,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            Flash(
+                UP * 2.5 + RIGHT * 4.5,
+                color=GREEN,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            Flash(
+                DOWN * 2.5 + LEFT * 3.5,
+                color=PURPLE,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            Flash(
+                DOWN * 2.5 + RIGHT * 3.5,
+                color=ORANGE,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            run_time=1.5
+        )
+
+        self.wait(3)
