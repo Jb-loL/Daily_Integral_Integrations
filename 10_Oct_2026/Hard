@@ -1,0 +1,512 @@
+
+from manim import *
+
+# ============================================================
+# DAILY INTEGRAL #4 — HARD
+# Inverse cotangent + hyperbolic cosine + improper integral
+# ============================================================
+
+config.pixel_width = 1920
+config.pixel_height = 1080
+config.frame_rate = 60
+
+# ------------------------------------------------------------
+# COLOR PALETTE
+# ------------------------------------------------------------
+
+QUESTION_COLOR = WHITE
+IDENTITY_COLOR = BLUE
+SUBSTITUTION_COLOR = GREEN
+LIMIT_COLOR = PURPLE
+NUMERICAL_COLOR = ORANGE
+RESULT_COLOR = YELLOW
+
+HEADING_BUFF = 0.85
+CONTENT_BUFF = 0.8
+
+
+class DailyIntegral4(Scene):
+
+    def construct(self):
+
+        # ====================================================
+        # SCENE 1 — PRESENT THE PROBLEM
+        # ====================================================
+
+        heading = Text(
+            "Daily Integral #4",
+            font_size=46
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        subtitle = Text(
+            "Hard | Improper Integral",
+            font_size=28,
+            color=RED
+        ).next_to(
+            heading, DOWN, buff=0.3
+        )
+
+        problem = MathTex(
+            r"I=\int_0^\infty"
+            r"\cot^{-1}(3+4\cosh x)\,dx",
+            font_size=65
+        ).move_to(ORIGIN)
+
+        self.play(Write(heading))
+        self.play(FadeIn(subtitle))
+        self.play(Write(problem))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(subtitle),
+            FadeOut(problem)
+        )
+
+        # ====================================================
+        # SCENE 2 — INVERSE COTANGENT IDENTITY
+        # ====================================================
+
+        heading = Text(
+            "Step 1: Rewrite the inverse cotangent",
+            font_size=40
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"\cot^{-1}(y)=\tan^{-1}\left(\frac1y\right)",
+            font_size=57,
+            color=IDENTITY_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq2 = MathTex(
+            r"I=\int_0^\infty"
+            r"\tan^{-1}\left(\frac{1}{3+4\cosh x}\right)\,dx",
+            font_size=49
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq2)
+        )
+
+        # ====================================================
+        # SCENE 3 — EXPAND cosh(x)
+        # ====================================================
+
+        heading = Text(
+            "Step 2: Use the hyperbolic identity",
+            font_size=40
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"\cosh x=\frac{e^x+e^{-x}}{2}",
+            font_size=62,
+            color=IDENTITY_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq2 = MathTex(
+            r"3+4\cosh x=3+2e^x+2e^{-x}",
+            font_size=56
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        self.play(Write(eq2))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq2)
+        )
+
+        # ====================================================
+        # SCENE 4 — EXPONENTIAL SUBSTITUTION
+        # ====================================================
+
+        heading = Text(
+            "Step 3: Choose an exponential substitution",
+            font_size=38
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"t=e^{-x}",
+            font_size=66,
+            color=SUBSTITUTION_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq2 = MathTex(
+            r"dt=-e^{-x}\,dx=-t\,dx",
+            font_size=56
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq3 = MathTex(
+            r"dx=-\frac{dt}{t}",
+            font_size=62,
+            color=SUBSTITUTION_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        self.play(Write(eq2))
+        self.wait(1.5)
+        self.play(FadeOut(eq2))
+
+        self.play(Write(eq3))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq3)
+        )
+
+        # ====================================================
+        # SCENE 5 — TRANSFORM BOTH LIMITS
+        # ====================================================
+
+        heading = Text(
+            "Step 4: Transform both limits",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        lower_limit = MathTex(
+            r"x=0\quad\rightarrow\quad t=e^0=1",
+            font_size=57,
+            color=LIMIT_COLOR
+        )
+
+        upper_limit = MathTex(
+            r"x\to\infty\quad\rightarrow\quad t=e^{-x}\to0",
+            font_size=53,
+            color=LIMIT_COLOR
+        )
+
+        limits = VGroup(
+            lower_limit,
+            upper_limit
+        ).arrange(
+            DOWN, buff=0.65
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(lower_limit))
+        self.play(Write(upper_limit))
+        self.wait(3)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(limits)
+        )
+
+        # ====================================================
+        # SCENE 6 — TRANSFORM THE DENOMINATOR
+        # ====================================================
+
+        heading = Text(
+            "Step 5: Rewrite the denominator",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"3+2e^x+2e^{-x}",
+            font_size=62
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq2 = MathTex(
+            r"e^x=\frac1t,\qquad e^{-x}=t",
+            font_size=57,
+            color=SUBSTITUTION_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq3 = MathTex(
+            r"3+\frac2t+2t",
+            font_size=62
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq4 = MathTex(
+            r"\frac{2t^2+3t+2}{t}",
+            font_size=64,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        self.play(Write(eq2))
+        self.wait(1.5)
+        self.play(FadeOut(eq2))
+
+        self.play(Write(eq3))
+        self.wait(1.5)
+        self.play(FadeOut(eq3))
+
+        self.play(Write(eq4))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq4)
+        )
+
+        # ====================================================
+        # SCENE 7 — OBTAIN THE FINITE-INTERVAL INTEGRAL
+        # ====================================================
+
+        heading = Text(
+            "Step 6: Transform the integral",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"I=\int_1^0"
+            r"\tan^{-1}\left(\frac{t}{2t^2+3t+2}\right)"
+            r"\left(-\frac{dt}{t}\right)",
+            font_size=43
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq2 = MathTex(
+            r"I=\int_0^1"
+            r"\frac1t\tan^{-1}\left("
+            r"\frac{t}{2t^2+3t+2}\right)\,dt",
+            font_size=45,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(2)
+        self.play(FadeOut(eq1))
+
+        self.play(Write(eq2))
+        self.wait(3)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq2)
+        )
+
+        # ====================================================
+        # SCENE 8 — CHECK THE ENDPOINT
+        # ====================================================
+
+        heading = Text(
+            "Step 7: Check the endpoint t = 0",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"g(t)=\frac1t\tan^{-1}\left("
+            r"\frac{t}{2t^2+3t+2}\right)",
+            font_size=47
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq2 = MathTex(
+            r"\tan^{-1}(z)\sim z\quad\text{as }z\to0",
+            font_size=51,
+            color=IDENTITY_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq3 = MathTex(
+            r"\lim_{t\to0^+}g(t)"
+            r"=\lim_{t\to0^+}\frac{1}{2t^2+3t+2}",
+            font_size=48
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        eq4 = MathTex(
+            r"\boxed{\lim_{t\to0^+}g(t)=\frac12}",
+            font_size=64,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.wait(1.5)
+        self.play(FadeOut(eq1))
+
+        self.play(Write(eq2))
+        self.wait(1.5)
+        self.play(FadeOut(eq2))
+
+        self.play(Write(eq3))
+        self.wait(2)
+        self.play(FadeOut(eq3))
+
+        self.play(Write(eq4))
+        self.wait(2)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq4)
+        )
+
+        # ====================================================
+        # SCENE 9 — NUMERICAL EVALUATION
+        # ====================================================
+
+        heading = Text(
+            "Step 8: Numerical quadrature",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        eq1 = MathTex(
+            r"I=\int_0^1g(t)\,dt",
+            font_size=64
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        explanation = Text(
+            "Evaluate the continuous function numerically",
+            font_size=30,
+            color=NUMERICAL_COLOR
+        ).next_to(
+            eq1, DOWN, buff=0.55
+        )
+
+        eq2 = MathTex(
+            r"I\approx0.2721982613",
+            font_size=65,
+            color=RESULT_COLOR
+        ).next_to(
+            explanation, DOWN, buff=0.65
+        )
+
+        self.play(Write(heading))
+        self.play(Write(eq1))
+        self.play(FadeIn(explanation))
+        self.wait(1.5)
+        self.play(Write(eq2))
+        self.wait(3)
+
+        self.play(
+            FadeOut(heading),
+            FadeOut(eq1),
+            FadeOut(explanation),
+            FadeOut(eq2)
+        )
+
+        # ====================================================
+        # SCENE 10 — FINAL ANSWER AND FIREWORKS
+        # ====================================================
+
+        heading = Text(
+            "Daily Integral #4 — Final Answer",
+            font_size=42
+        ).to_edge(UP, buff=HEADING_BUFF)
+
+        result = MathTex(
+            r"\boxed{0.2721982613}",
+            font_size=76,
+            color=RESULT_COLOR
+        ).next_to(
+            heading, DOWN, buff=CONTENT_BUFF
+        )
+
+        label = Text(
+            "Numerical value",
+            font_size=30,
+            color=NUMERICAL_COLOR
+        ).next_to(
+            result, DOWN, buff=0.5
+        )
+
+        self.play(Write(heading))
+        self.play(Write(result), run_time=1.5)
+        self.play(FadeIn(label))
+        self.wait(0.5)
+
+        self.play(
+            Flash(
+                result,
+                color=RESULT_COLOR,
+                flash_radius=2.5,
+                line_length=0.8,
+                num_lines=40
+            ),
+            run_time=1.5
+        )
+
+        self.play(
+            Flash(
+                UP * 2.5 + LEFT * 4.5,
+                color=BLUE,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            Flash(
+                UP * 2.5 + RIGHT * 4.5,
+                color=GREEN,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            Flash(
+                DOWN * 2.5 + LEFT * 3.5,
+                color=PURPLE,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            Flash(
+                DOWN * 2.5 + RIGHT * 3.5,
+                color=ORANGE,
+                flash_radius=1.5,
+                line_length=0.5,
+                num_lines=25
+            ),
+            run_time=1.5
+        )
+
+        self.wait(3)
